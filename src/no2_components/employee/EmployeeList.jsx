@@ -2,15 +2,22 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { employeeAllGetApiSlice, select } from '../../no3_store/slices/employeeSlice';
+// import styled from 'styled-components';
+// import { employeeAllGetApiSlice, select } from '../../no3_store/slices/employeeSlice';
+import{
+  useAllGetEmployee,
+  useDeleteEmployee,
+} from "../../../no3_store/hooks/useEmployee"
 
 const EmployeeList = () => {
-  const {empTable, selectedId} =useSelector(state=>state.emp);
-  const dispatch = useDispatch();  
-  useEffect (()=>{
-    dispatch(employeeAllGetApiSlice())
-  },[dispatch])
+  // const {empTable, selectedId} =useSelector(state=>state.emp);
+  // const dispatch = useDispatch();  
+  // useEffect (()=>{
+  //   dispatch(employeeAllGetApiSlice())
+  // },[dispatch])
+
+  const {data: empTable=[], isLoading: loading, error} = useAllGetEmployee();
+
   return (
     <Container>
       {/* {console.log(empTable)} */}

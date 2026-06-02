@@ -8,17 +8,6 @@ export const todoAllGetApi = async () => {
     }catch(error){
         return error
 
-
-
-
-
-
-
-
-
-
-        
-
     }
 }
 

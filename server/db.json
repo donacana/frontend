@@ -2,7 +2,7 @@
   "user": [
     {
       "id": "1",
-      "name": "Alice",
+      "username": "Alice",
       "password": "1111",
       "age": 30,
       "email": "alice@example.com",
@@ -10,7 +10,7 @@
     },
     {
       "id": "2",
-      "name": "Bob",
+      "username": "Bob",
       "password": "1111",
       "age": 25,
       "email": "bob@example.com",
@@ -18,7 +18,7 @@
     },
     {
       "id": "3",
-      "name": "Charlie",
+      "username": "Charlie",
       "password": "1111",
       "age": 35,
       "email": "charlie@example.com",
@@ -26,7 +26,7 @@
     },
     {
       "id": "4",
-      "name": "David",
+      "username": "David",
       "password": "1111",
       "age": 28,
       "email": "david@example.com",
@@ -34,7 +34,7 @@
     },
     {
       "id": "5",
-      "name": "Eve",
+      "username": "Eve",
       "password": "1111",
       "age": 22,
       "email": "eve@example.com",
@@ -94,5 +94,30 @@
       "checked": true
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json"
+  "products": [
+    {
+      "id": 5,
+      "product_name": "스마트폰 거치대 5",
+      "color": "Pink",
+      "cost_price": 47723,
+      "sale_price": 76606,
+      "category_code": "E4"
+    },
+    {
+      "id": 6,
+      "product_name": "태블릿 케이스 6",
+      "color": "Red",
+      "cost_price": 29711,
+      "sale_price": 70400,
+      "category_code": "E6"
+    },
+    {
+      "id": 7,
+      "product_name": "고속충전 케이블 7",
+      "color": "Blue",
+      "cost_price": 17246,
+      "sale_price": 25732,
+      "category_code": "E2"
+    }
+  ]
 }

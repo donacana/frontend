@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-export const userTotalGetApi = async () => {
+export const userAllGetApi = async () => {
     try{
         const response = await axios.get("http://localhost:3001/user")
         return response.data
@@ -12,43 +12,30 @@ export const userTotalGetApi = async () => {
     }
 }
 
-export const userGetApi = async () => {
+export const userLoginApi = async (userObj) =>{
     try{
-        const response = await axios.get(`http://localhost:3001/user/${id}`) // 이게 하나만 받는 방법
-        return response.data
+        const response = await axios.get(
+            `http://localhost:3001/user?username=${userObj.username}`
+        )
+        
+        const users = response.data
+       
+
+        return users[0]
     }catch(error){
         return error 
-
     }
 }
 
-
-export const userPostApi = async (dataObj) => {
+export const userRegisterApi = async (userObj) =>{
     try{
-        const response = await axios.post("http://localhost:3001/user",dateObj) 
-        return response.data
+        const response = await axios.get(`http://localhost:3001/user?username=${userObj.username}`)
+        const users = response.data
+        if(users.length>0){
+            return Error("이미 존재하는 사용자입니다.")
+        }
+        return await axios.post(`http://localhost:3001/user`, userObj)
     }catch(error){
         return error 
-
-    }
-}
-
-export const userPutApi = async (dataObj) => {
-    try{
-        const response = await axios.put(`http://localhost:3001/user/2`,dateObj) //put방식
-        return response.data
-    }catch(error){
-        return error 
-
-    }
-}
-
-export const userDeleteApi = async (dataObj) => {
-    try{
-        const response = await axios.delete(`http://localhost:3001/user/${id}`)
-        return response.data
-    }catch(error){
-        return error 
-
     }
 }

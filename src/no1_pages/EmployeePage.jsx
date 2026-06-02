@@ -8,27 +8,34 @@ import EmployeeTable from '../no2_components/employee/EmployeeTable'
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
 //import { EmployeeContext } from '../no0_context/EmployeeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { setEmp, employeeDeleteSlice, setMode } from '../no3_store/slices/employeeSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setEmp, employeeDeleteSlice, setMode } from '../no3_store/slices/employeeSlice';
+import{
+  useAllGetEmployee,
+  useDeleteEmployee,
+} from "../../../no3_store/hooks/useEmployee"
 
 const EmployeePage = () => {
   //const {state, dispatch} = useContext(EmployeeContext);
-  const {selectedId, mode, empTable} = useSelector(state=>state.emp);
-const dispatch=useDispatch();
+//   const {selectedId, mode, empTable} = useSelector(state=>state.emp);
+// const dispatch=useDispatch();
 
-  useEffect(()=>{
-    const newEmp = empTable.filter(item => item.id === selectedId)[0]
-    selectedId &&
-    dispatch(setEmp(newEmp))
-  }, [selectedId, empTable])
+  // useEffect(()=>{
+  //   const newEmp = empTable.filter(item => item.id === selectedId)[0]
+  //   selectedId &&
+  //   dispatch(setEmp(newEmp))
+  // }, [selectedId, empTable])
 
-  const handleDelete = () => {
 
-    if(!selectedId) {
-      alert("삭제할 데이터를 선택하세요");
-      return;
-    }
-    dispatch(employeeDeleteSlice(selectedId))
+
+  const handleDelete = (id) => {
+
+    // if(!selectedId) {
+    //   alert("삭제할 데이터를 선택하세요");
+    //   return;
+    // }
+    useDeleteEmployee(id)
+    alert("삭제 완료")
   }
 
   return (
