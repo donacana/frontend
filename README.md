@@ -1,15 +1,14 @@
 echo "# frontend" >> README.md
 git init
-git add README.md
+git add .
 git commit -m "first commit"
 git branch -M main
-git remote add origin https://github.com/idbswnd1000/frontend.git
+git remote add origin https://github.com/donacana/frontend.git
 git push -u origin main
 
-
-git add .
-git commit -m ""
-git push -u
+[NPM 라이브러리 통합 설치 명령어]
+npm install react-router-dom styled-components react-icons react-redux @reduxjs/toolkit axios @tanstack/react-query
+npm install -g json-server
 
 
 node_moduels 다시 설치 : npm install
@@ -47,4 +46,4 @@ get 방식(all): url => return: table(json)
 get 방식(one of data): url/id => return:object(row)
 post 방식: url, object => return: object(response)
 put 방식: url/id, object => return: object(response)
-delete 방식: url/id => return: id(response)
+delete 방식: url/id => return: id(response)# frontend

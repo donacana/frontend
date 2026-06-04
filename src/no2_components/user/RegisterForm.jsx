@@ -1,52 +1,71 @@
-import React, { useContext, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { userRegisterSlice } from '../../no3_store/slices/userSlice';
+import { useRegisterUser } from '../../no3_store/hooks/useUser';
+
 
 const initialState = {
-  id: "",
-  username: "",
-  password: "",
-  confirmPassword: "",
-  age:"",
-  email:"",
-  city:""
-}
+  username: '',
+  password: '',
+  confirmPassword: '',
+  age: '',
+  email: '',
+  city: ''
+};
 
 const RegisterForm = () => {
-  const dispatch = useDispatch();
-
-  const [user, setUser] = useState(initialState);
   const navigate = useNavigate();
+  const useRegisterUser = useRegisterUser();
+  const [user, setUser] = useState(initialState);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setUser(prev => ({
+
+    setUser((prev) => ({
       ...prev,
       [name]: value
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (user.password !== user.confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-    dispatch(userRegisterSlice({id:Date.now(),user})
+
+    const {confirmPassword,...useData } =user;
+    try{
+      registerMutation.mutate(user)
+      alert("회원 가입 성공")
+    }catch{
+     alert("회원가입 실패")
+    }
+
+    dispatch(
+      userRegisterSlice({
+        id: String(Date.now()),
+        username: user.username,
+        password: user.password,
+        age: Number(user.age),
+        email: user.email,
+        city: user.city
+      })
     )
-
-    alert("회원가입 성공")
-
-    navigate("/login")
-  }
+      .unwrap()
+      .then(() => {
+        alert('회원가입 성공');
+        navigate('/login');
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   return (
     <Container>
-
       <Form onSubmit={handleSubmit}>
-
         <Logo>MySystem</Logo>
 
         <Title>회원가입</Title>
@@ -57,77 +76,77 @@ const RegisterForm = () => {
 
         <InputGroup>
           <Label>아이디</Label>
-
           <Input
             type="text"
             name="username"
             value={user.username}
             onChange={handleChange}
             placeholder="아이디 입력"
+            required
           />
         </InputGroup>
 
         <InputGroup>
           <Label>비밀번호</Label>
-
           <Input
             type="password"
             name="password"
             value={user.password}
             onChange={handleChange}
             placeholder="비밀번호 입력"
+            required
           />
         </InputGroup>
 
         <InputGroup>
           <Label>비밀번호 확인</Label>
-
           <Input
             type="password"
             name="confirmPassword"
             value={user.confirmPassword}
             onChange={handleChange}
             placeholder="비밀번호 다시 입력"
+            required
           />
         </InputGroup>
 
         <InputGroup>
           <Label>나이</Label>
-
           <Input
             type="number"
             name="age"
             value={user.age}
             onChange={handleChange}
             placeholder="나이 입력"
+            required
           />
         </InputGroup>
 
         <InputGroup>
           <Label>이메일</Label>
-
           <Input
             type="email"
             name="email"
             value={user.email}
             onChange={handleChange}
             placeholder="이메일 입력"
+            required
           />
         </InputGroup>
 
         <InputGroup>
           <Label>도시</Label>
-
           <Input
             type="text"
             name="city"
             value={user.city}
             onChange={handleChange}
             placeholder="도시 입력"
+            required
           />
         </InputGroup>
 
-        <RegisterButton>
+        <RegisterButton type="submit">
           회원가입
         </RegisterButton>
 
@@ -135,21 +154,18 @@ const RegisterForm = () => {
 
         <LoginButton
           type="button"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate('/login')}
         >
           이미 회원이신가요? 로그인
         </LoginButton>
-
       </Form>
-
     </Container>
-  )
-}
+  );
+};
 
 export default RegisterForm;
 
-
-const Container = styled.div`
+  const Container = styled.div`
   width: 100%;
   min-height: 100vh;
 
@@ -167,7 +183,7 @@ const Container = styled.div`
   );
 `
 
-const Form = styled.form`
+  const Form = styled.form`
   width: 100%;
   max-width: 420px;
 
@@ -185,7 +201,7 @@ const Form = styled.form`
   flex-direction: column;
 `
 
-const Logo = styled.div`
+  const Logo = styled.div`
   text-align: center;
 
   font-size: 30px;
@@ -196,7 +212,7 @@ const Logo = styled.div`
   margin-bottom: 12px;
 `
 
-const Title = styled.h2`
+  const Title = styled.h2`
   text-align: center;
 
   font-size: 28px;
@@ -206,7 +222,7 @@ const Title = styled.h2`
   margin-bottom: 10px;
 `
 
-const Description = styled.p`
+  const Description = styled.p`
   text-align: center;
 
   color: #64748b;
@@ -215,14 +231,14 @@ const Description = styled.p`
   margin-bottom: 32px;
 `
 
-const InputGroup = styled.div`
+  const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
 
   margin-bottom: 20px;
 `
 
-const Label = styled.label`
+  const Label = styled.label`
   font-size: 14px;
   font-weight: 600;
 
@@ -231,7 +247,7 @@ const Label = styled.label`
   margin-bottom: 8px;
 `
 
-const Input = styled.input`
+  const Input = styled.input`
   width: 100%;
 
   padding: 14px 16px;
@@ -253,7 +269,7 @@ const Input = styled.input`
   }
 `
 
-const BaseButton = styled.button`
+  const BaseButton = styled.button`
   width: 100%;
 
   border: none;
@@ -269,7 +285,7 @@ const BaseButton = styled.button`
   transition: 0.2s;
 `
 
-const RegisterButton = styled(BaseButton)`
+  const RegisterButton = styled(BaseButton)`
   background: #2563eb;
   color: white;
 
@@ -281,7 +297,7 @@ const RegisterButton = styled(BaseButton)`
   }
 `
 
-const Divider = styled.div`
+  const Divider = styled.div`
   width: 100%;
   height: 1px;
 
@@ -290,7 +306,7 @@ const Divider = styled.div`
   margin: 24px 0;
 `
 
-const LoginButton = styled(BaseButton)`
+  const LoginButton = styled(BaseButton)`
   background: #eff6ff;
   color: #2563eb;
 

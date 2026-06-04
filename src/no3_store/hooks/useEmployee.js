@@ -1,68 +1,92 @@
-import { useQuery, useMutation, useQueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
     employeeAllGetApi,
     employeePostApi,
     employeePutApi,
-    employeeDeleteApi
-} from "../apis/employee.api"
+    employeeDeleteApi,
+    employeeGetApi
+} from "../apis/employee.api";
 
+
+// 전체 직원 조회
 export const useAllGetEmployee = () => {
     return useQuery({
         queryKey: ["employees"],
         queryFn: employeeAllGetApi
-    })
-}
+    });
+};
 
+
+// 직원 한 명 조회
+export const useGetEmployee = (id) => {
+    return useQuery({
+        queryKey: ["employees", id],
+        queryFn: () => employeeGetApi(id),
+        enabled: !!id
+    });
+};
+
+
+// 직원 등록
 export const usePostRegisterEmployee = () => {
     const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: employeePostApi,
-        onSuccess: (dataObj) =>{
-            queryClient.setQueriesData(
-                ["employees"],
-                (oldData=[]) =>[
-                    ...oldData, dataObj
-                ]
-            )
-        }
-    })
-}
 
+        onSuccess: (dataObj) => {
+            queryClient.setQueryData(
+                ["emsployees"],
+                (old = []) => [...old, dataObj]
+            );
+        }
+    });
+};
+
+
+// 직원 수정
 export const usePutUpdateEmployee = () => {
     const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: employeePutApi,
-        onSuccess: (dataObj) =>{
-            queryClient.setQueriesData(
-                ["employees"],
-                (oldData=[]) => oldData.map(item =>
-                item.id === dataObj.id ?
-                dataObj : item
-                )
-            );
-            queryClient.setQueriesData(
-                ["employees", dataObj.id],
-                employeePutApi
-            )
-        }
-    })
-}
 
+        onSuccess: (dataObj) => {
+            queryClient.setQueryData(
+                ["employees"],
+                (old = []) =>
+                    old.map((item) =>
+                        item.id === dataObj.id ? dataObj : item
+                    )
+            );
+
+            queryClient.setQueryData(
+                ["employees", dataObj.id],
+                dataObj
+            );
+        }
+    });
+};
+
+
+// 직원 삭제
 export const useDeleteEmployee = () => {
     const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: employeeDeleteApi,
-        onSuccess: (id) =>{
-            queryClient.setQueriesData(
+
+        onSuccess: (id) => {
+            queryClient.setQueryData(
                 ["employees"],
-                (oldData=[]) => oldData.filter(item =>
-                    item.id !== id
-                )
+                (old = []) =>
+                    old.filter((item) => item.id !== id)
             );
-            queryClient.setQueriesData(
-                ["employees", id]
-            )
+
+            queryClient.removeQueries({
+                queryKey: ["employees", id]
+            });
         }
-    })
-}
+    });
+};

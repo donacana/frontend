@@ -1,46 +1,38 @@
 import axios from "axios";
 
+const TODO_URL = "http://localhost:3001/todos";
+
+
+// 전체 할 일 조회
 export const todoAllGetApi = async () => {
-    try{
-        const response = await axios.get("http://localhost:3001/todos")
-        return response.data
+    const response = await axios.get(TODO_URL);
 
-    }catch(error){
-        return error
+    return response.data;
+};
 
-    }
-}
 
+// 할 일 등록
 export const todoPostApi = async (dataObj) => {
-    try{
-        const response = await axios.post("http://localhost:3001/todos",dataObj)
-        return response.data
+    const response = await axios.post(TODO_URL, dataObj);
 
-    }catch(error){
-        return error
+    return response.data;
+};
 
-    }
-}
 
+// 할 일 수정 및 체크 변경
 export const todoPutApi = async (dataObj) => {
-    try{
-        const response = await axios.put(`http://localhost:3001/todos/${dataObj.id}`,dataObj)
-        return response.data
+    const response = await axios.put(
+        `${TODO_URL}/${dataObj.id}`,
+        dataObj
+    );
 
-    }catch(error){
-        return error
+    return response.data;
+};
 
-    }
-}
 
+// 할 일 삭제
 export const todoDeleteApi = async (id) => {
-    try{
-        const response = await axios.delete(`http://localhost:3001/todos/${id}`)
-        return response.data
+    await axios.delete(`${TODO_URL}/${id}`);
 
-    }catch(error){
-        return error
-
-    }
-}
-
+    return id;
+};

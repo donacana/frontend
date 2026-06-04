@@ -1,67 +1,63 @@
-// EmployeeList.jsx
+import React from 'react';
+import styled from 'styled-components';
 
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-// import styled from 'styled-components';
-// import { employeeAllGetApiSlice, select } from '../../no3_store/slices/employeeSlice';
-import{
-  useAllGetEmployee,
-  useDeleteEmployee,
-} from "../../../no3_store/hooks/useEmployee"
+import { useAllGetEmployee } from '../../no3_store/hooks/useEmployee';
 
-const EmployeeList = () => {
-  // const {empTable, selectedId} =useSelector(state=>state.emp);
-  // const dispatch = useDispatch();  
-  // useEffect (()=>{
-  //   dispatch(employeeAllGetApiSlice())
-  // },[dispatch])
+const EmployeeList = ({ selectedId, setSelectedId }) => {
+  const {
+    data: empTable = [],
+    isPending,
+    error
+  } = useAllGetEmployee();
 
-  const {data: empTable=[], isLoading: loading, error} = useAllGetEmployee();
+  if (isPending) {
+    return <h3>로딩 중...</h3>;
+  }
+
+  if (error) {
+    return <h3>직원 목록을 불러오지 못했습니다.</h3>;
+  }
 
   return (
     <Container>
-      {/* {console.log(empTable)} */}
-      {
-        empTable[0] && empTable.map(item => (
-          <EmployeeButton
-            key={item.id}
-            $active={selectedId === item.id}
-            onClick={() => dispatch(select(item.id))}
-          >
-            {item.name}
-          </EmployeeButton>
-        ))
-      }
-
+      {empTable.map((item) => (
+        <EmployeeButton
+          key={item.id}
+          $active={selectedId === item.id}
+          onClick={() => setSelectedId(item.id)}
+        >
+          {item.name}
+        </EmployeeButton>
+      ))}
     </Container>
-  )
-}
+  );
+};
 
-export default EmployeeList
+export default EmployeeList;
 
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-`
+`;
 
 const EmployeeButton = styled.button`
   border: none;
   padding: 14px;
   border-radius: 10px;
 
-  background: ${({$active}) =>
-    $active ? "#3b82f6" : "#e2e8f0"};
+  background: ${({ $active }) =>
+    $active ? '#3b82f6' : '#e2e8f0'};
 
-  color: ${({$active}) =>
-    $active ? "white" : "#1e293b"};
+  color: ${({ $active }) =>
+    $active ? 'white' : '#1e293b'};
 
   cursor: pointer;
   transition: 0.2s;
   font-weight: bold;
 
-  &:hover{
+  &:hover {
     opacity: 0.85;
   }
-`
+`;

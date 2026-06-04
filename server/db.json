@@ -55,6 +55,14 @@
       "age": 31,
       "email": "kim@example.com",
       "city": "San Antonio"
+    },
+    {
+      "id": "g7hEiu04vU8",
+      "username": "PPL",
+      "password": "1111",
+      "age": 18,
+      "email": "PPL@gmail.com",
+      "city": "서울"
     }
   ],
   "employees": [
@@ -89,14 +97,14 @@
   ],
   "todos": [
     {
-      "id": "6LOIJS3PBIA",
-      "subject": "Js 공부 ㅇ",
-      "checked": true
+      "subject": "CSS 공부",
+      "checked": true,
+      "id": "YwwZLVShlV4"
     }
   ],
   "products": [
     {
-      "id": 5,
+      "id": "5",
       "product_name": "스마트폰 거치대 5",
       "color": "Pink",
       "cost_price": 47723,
@@ -104,7 +112,7 @@
       "category_code": "E4"
     },
     {
-      "id": 6,
+      "id": "6",
       "product_name": "태블릿 케이스 6",
       "color": "Red",
       "cost_price": 29711,
@@ -112,12 +120,13 @@
       "category_code": "E6"
     },
     {
-      "id": 7,
+      "id": "7",
       "product_name": "고속충전 케이블 7",
       "color": "Blue",
       "cost_price": 17246,
       "sale_price": 25732,
       "category_code": "E2"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
